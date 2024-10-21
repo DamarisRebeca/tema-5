@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema5</title>
+</head>
+<body>
+    <h1>Introduceți numărul de configurații</h1>
+    <label style="font: size 20px;;">Numar configuratii: </label>
+    <input  style="font-size: 20px;" id="array_length_input" type="number">
+    <br><br>
+
+    <button id="continue_button" name="continue_button" onclick="create_array()" >Continue</button>
+    <div id="config_list" hidden>
+        <h2>Introduceți numărul de configurații</h2>
+        
+            <label for="input_id" id="label_id">ID</label>
+            <input type="number" id="input_id">
+            <br><br>
+
+            <label for="input_model" id="label_model" >Model: </label>
+            <input type="number" id="input_model" >
+            <br><br>
+
+            <label for="input_pret" id="label_pret" >Pret: </label>
+            <input type="number" id="input_pret" >
+            <br><br>
+
+            <label for="input_producator" id="label_producator" >Producator: </label>
+            <input type="number" id="input_producator" >
+            <br><br>
+
+            <label for="input_memorie" id="label_memorie" >Memorie: </label>
+            <input type="number" id="input_memorie" >
+            <br><br>
+            <button id="add_config_to_array" name="add_config_to_array" onclick="add_to_array()">Add</button>
+       
+    </div>
+
+    <br><br>
+    <div id="butoane_configuratii " didden>
+        <button id="show_cheap" name="show_cheap" onclick="show_cheapest()">Show the cheapest</button>
+        <button id="show_expensive" name="show_expensive" onclick="show_expensive()">show the most expensive</button>  
+    </div>
+</body>
+<script>
+    let config_array = []
+    let array_counter = 0
+
+    function create_array(){
+        let array_length = Number(document.getElementById("array_length_input").value)
+        if(array_length >= 5){
+            config_array.length = array_length
+            document.getElementById("config_list").toggleAttribute("hidden");
+            console.log(config_array)
+            document.getElementById("continue_button").disabled = true;
+        }else{
+            alert("array must be higher than 5")
+            document.getElementById("array_length_input").value = "";
+        }
+    }
+    function config (id, model, pret, producator, memory){
+        this.id=id;
+        this.model=model
+        this.pret=pret
+        this.producator=producator
+        this.memory=memory
+    }
+    function add_to_array(){
+        let id= document.getElementById("input_id").value
+        let model = document.getElementById("input_model").value
+        let pret = document.getElementById("input_pret").value
+        let producator = document.getElementById("input_producator").value
+        let memory = document.getElementById("input_memorie").value
+
+        config_array[array_counter] = new config (id, model, pret, producator, memory)
+
+        document.getElementById("input_id").value = ""
+        document.getElementById("input_model").value = ""
+        document.getElementById("input_pret").value = ""
+        document.getElementById("input_producator").value = ""
+        document.getElementById("input_memorie").value = ""
+        console.log(config_array)
+
+        array_counter++
+        if(array_counter == config_array.length){
+            document.getElementById("config_list").toggleAttribute("hidden")
+            document.getElementById("show").toggleAttribute("hidden")
+        }
+        
+    }
+
+    function show_cheapest(){
+        let min = config_array[0]
+        for( let i = 1; i < config_array.length; i++){
+            if(Number(config_array[i].pret) < Number(min.pret)){
+                min = config_array[i]
+            }
+        }
+        alert('Cea mai ieftina configuratie are id-ul: ' + min.id)
+        console.log('id: ' + min.id)
+        console.log('pret' + min.pret)
+    }
+
+    function show_expensive(){
+        let max = config_array[0]
+        for( let i = 1; i < config_array.length; i++){
+            if(Number(config_array[i].pret) > Number(max.pret)){
+                max = config_array[i]
+            }
+        }
+        alert('Cea mai ieftina configuratie are id-ul: ' + max.id)
+        console.log(max.id)
+    }
+    
+</script>
+
+    
+</html>
